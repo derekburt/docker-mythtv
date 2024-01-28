@@ -1,4 +1,4 @@
-FROM  ubuntu:bionic
+FROM  ubuntu:jammy
 
 ENV CONFIG_MODE=1 \
 	DEBIAN_FRONTEND="noninteractive" \
