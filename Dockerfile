@@ -24,7 +24,7 @@ RUN apt-key adv --recv-keys --keyserver \
 	&& apt-key adv --recv-keys --keyserver \
 		hkp://keyserver.ubuntu.com:80 1504888C \
 	\
- 	&& echo "deb $MYTHTV_URL bionic main" \
+ 	&& echo "deb $MYTHTV_URL jammy main" \
 	 	>> /etc/apt/sources.list.d/mythbuntu.list \
 	\
 	&& apt-get update \
