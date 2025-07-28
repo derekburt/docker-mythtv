@@ -29,44 +29,9 @@ ARG S6_ARCH_URL="https://github.com/just-containers/s6-overlay/releases/download
 # New: Install software-properties-common for add-apt-repository, and include curl early for consistency
 RUN apt-get update && apt-get install -y software-properties-common gnupg2 curl
 
-# OLD (entire block):
-# RUN apt-key adv --recv-keys --keyserver \
-# 		hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 \
-# 		&& apt-key adv --recv-keys --keyserver \
-# 		hkp://keyserver.ubuntu.com:80 1504888C \
-# 		\
-#  	&& echo "deb $MYTHTV_URL jammy main" \
-# 	 	>> /etc/apt/sources.list.d/mythbuntu.list \
-# 		\
-# 	&& apt-get update \
-# 	&& apt-get dist-upgrade -y --no-install-recommends \
-# 		-o Dpkg::Options::="--force-confold" \
-# 		\
-# 	&& apt-get install -y mariadb-server apt-utils locales curl tzdata  \
-# 		git x11vnc xvfb mate-desktop-environment-core net-tools \
-# 		\
-# 	&& apt-get install -y  \
-# 		mythtv-backend-master mythweb xmltv xmltv-util \
-# 		\
-# 	&& wget https://nice.net.nz/scripts/tv_grab_nz-py -O /usr/bin/tv_grab_nz-py \
-# 	&& chmod a+x /usr/bin/tv_grab_nz-py \
-# 		\
-# 	&& sed -i 's/3306/6506/g' /etc/mysql/mariadb.conf.d/50-server.cnf \
-# 	&& sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf \
-# 		\
-# 	&& cd /opt && git clone https://github.com/kanaka/noVNC.git \
-# 	&& cd noVNC/utils && git clone \
-# 		https://github.com/kanaka/websockify websockify \
-# 		\
-# 	&& locale-gen en_US.UTF-8 \
-# 		\
-# 	&& curl -o /tmp/s6-overlay.tar.gz -L ${S6_URL} \
-# 	&& tar xfz /tmp/s6-overlay.tar.gz -C / \
-# 		\
-# 	&& apt-get clean \
-# 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-# New: Use add-apt-repository for modern PPA addition (handles keys automatically), update to noble in deb line (but since add-apt does it), change s6 to two downloads with .xz extraction
-RUN add-apt-repository ppa:mythbuntu/$MYTHTV_VERSION \
+# OLD (entire block): ...
+# New: Use add-apt-repository for modern PPA addition (handles keys automatically), but add -y for noninteractive mode to avoid any potential prompts. Update to noble in deb line (handled by add-apt), change s6 to two downloads with .xz extraction
+RUN add-apt-repository -y ppa:mythbuntu/$MYTHTV_VERSION \
     && apt-get update \
     && apt-get dist-upgrade -y --no-install-recommends \
         -o Dpkg::Options::="--force-confold" \
